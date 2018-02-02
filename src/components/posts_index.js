@@ -15,4 +15,5 @@ class PostsIndex extends Component {
   }
 }
 
-export default PostsIndex;
+// Used shortcut here rather than mapStateToProps which is identical
+export default connect(null, { fetchPosts })(PostsIndex);
