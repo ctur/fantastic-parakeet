@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm} from 'redux-form';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { createPost } from '../actions';
 
 class PostsNew extends Component{
 
@@ -25,8 +27,10 @@ class PostsNew extends Component{
         );
     }
 
-    onSubmit(values) {
-        console.log(values);
+    onSubmit(values) {      
+        this.props.createPost(values, () => {
+            this.props.history.push('/');
+        });
     }
 
     render() {
@@ -75,7 +79,10 @@ function validate(values) {
     return errors;
 }
 
+// This is how to stack up multiple connect-like helpers.
 export default reduxForm({
     validate,
     form: 'PostsNewForm'
-})(PostsNew);
+})(
+    connect(null, { createPost })(PostsNew) 
+);
