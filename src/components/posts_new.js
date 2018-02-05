@@ -4,17 +4,24 @@ import { Field, reduxForm} from 'redux-form';
 class PostsNew extends Component{
 
     renderField(field) {
-      return (
-          <div className="form-group">
+        // Destructuring touched and error from meta object.
+        const { meta: { touched, error } } = field;
+        const className = `from-group ${ touched && error ? 'has-danger' : ''}`
+
+        return (
+          <div className={className}>
             <label>{field.label}</label>
             <input
               className="form-control"
               type="text"
               {...field.input}
-            />
-            {field.meta.error}
+            />   
+            <div className="text-help">
+                {touched ? error : ''}    
+            </div>         
+                        
           </div>
-      );
+        );
     }
 
     onSubmit(values) {
@@ -60,7 +67,6 @@ function validate(values) {
     if(!values.content) {
         errors.content = 'Enter some content.'
     }
-
 
     // If errors is empty, the form is fine to submit
     // If errors has *any* properties, redux form assumes form is invalid
